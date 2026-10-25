@@ -21,6 +21,8 @@ data class Settings(
     /** After the last hour of the day the book closes until the first one tomorrow. */
     val silence: Boolean = true,
     val sound: Boolean = true,
+    /** The hour's bell rings through the alarm volume even when the phone is on silent. */
+    val loud: Boolean = false,
     /** Beads, breath phases and bells felt in the hand. */
     val haptics: Boolean = true,
 )
@@ -35,6 +37,7 @@ class SettingsStore(context: Context) {
         place = if (this[LAT] != null && this[LON] != null) Place(this[LAT]!!, this[LON]!!, this[PLACE] ?: "") else Cities.default,
         silence = this[SILENCE] ?: true,
         sound = this[SOUND] ?: true,
+        loud = this[LOUD] ?: false,
         haptics = this[HAPTICS] ?: true,
     )
 
@@ -49,6 +52,7 @@ class SettingsStore(context: Context) {
             it[PLACE] = s.place.name
             it[SILENCE] = s.silence
             it[SOUND] = s.sound
+            it[LOUD] = s.loud
             it[HAPTICS] = s.haptics
         }
     }
@@ -60,6 +64,7 @@ class SettingsStore(context: Context) {
         val PLACE = stringPreferencesKey("place")
         val SILENCE = booleanPreferencesKey("silence")
         val SOUND = booleanPreferencesKey("sound")
+        val LOUD = booleanPreferencesKey("loud")
         val HAPTICS = booleanPreferencesKey("haptics")
     }
 }

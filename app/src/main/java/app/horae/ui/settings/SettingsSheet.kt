@@ -68,7 +68,12 @@ fun SettingsSheet(home: Home, onClose: () -> Unit) {
         Gap(10)
         Card {
             Text(w.t("Колокола", "Bells"), style = T.Heading)
-            Toggle(w.t("Звук", "Sound"), w.t("колокол часа и звуки практик; в беззвучном режиме — только вибрация", "the hour's bell and the practices' sounds; on silent, only a buzz"), st.sound) { v -> save { it.copy(sound = v) } }
+            Toggle(w.t("Звук", "Sound"), w.t("колокол часа и звуки практик; в беззвучном режиме колокол только вибрирует", "the hour's bell and the practices' sounds; on silent the bell only buzzes"), st.sound) { v -> save { it.copy(sound = v) } }
+            Toggle(
+                w.t("Звонить и в беззвучном режиме", "Ring even on silent"),
+                w.t("колокол часа идёт через громкость будильника", "the hour's bell goes through the alarm volume"),
+                st.loud,
+            ) { v -> save { it.copy(loud = v) } }
             Toggle(w.t("Вибрация", "Vibration"), w.t("удары колокола, фазы дыхания, бусины", "bell strokes, breath phases, beads"), st.haptics) { v -> save { it.copy(haptics = v) } }
             if (!canNotify && Build.VERSION.SDK_INT >= 33) {
                 Text(w.t("Уведомления выключены — колокол прозвонит, но час не откроется касанием.", "Notifications are off: the bell will ring, but no note will open the hour."), style = T.Small.copy(color = C.vermilion), modifier = Modifier.padding(top = 6.dp))

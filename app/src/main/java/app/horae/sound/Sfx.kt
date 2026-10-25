@@ -20,9 +20,10 @@ import kotlin.random.Random
  * The book's sounds, synthesised once into small WAV files in the cache: bells of five kinds rung a given number
  * of strokes, a wooden bead click and a soft page. The same moments can be felt through the vibration motor.
  */
+/** In-app sounds go through the media volume: the person opened the hour, so silent mode isn't asked. */
 class Sfx(private val context: Context) {
     private val pool = SoundPool.Builder().setMaxStreams(6)
-        .setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build())
+        .setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build())
         .build()
     private val ids = HashMap<String, Int>()
     private val vibrator = context.getSystemService(Vibrator::class.java)
@@ -49,7 +50,7 @@ class Sfx(private val context: Context) {
         stop()
         player = runCatching {
             MediaPlayer().apply {
-                setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build())
+                setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build())
                 setDataSource(Synth.file(context, b, strokes).absolutePath)
                 setOnCompletionListener { it.release(); if (player === it) player = null }
                 prepare(); start()

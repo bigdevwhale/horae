@@ -152,16 +152,18 @@ class BellService : Service() {
 
         val strokes = Clock.strokes(h)
         val audio = getSystemService(AudioManager::class.java)
-        val loud = audio.ringerMode == AudioManager.RINGER_MODE_NORMAL
+        val normal = audio.ringerMode == AudioManager.RINGER_MODE_NORMAL
         receiverScope.launch {
             val st = c.settings.now()
             if (st.haptics && audio.ringerMode != AudioManager.RINGER_MODE_SILENT) buzz(strokes, h.bell)
-            if (st.sound && loud) {
+            // On silent the bell only buzzes, unless asked to ring through the alarm volume anyway.
+            val usage = if (normal) AudioAttributes.USAGE_NOTIFICATION_EVENT else AudioAttributes.USAGE_ALARM
+            if (st.sound && (normal || st.loud)) {
                 val f = Synth.file(this@BellService, h.bell, strokes)
                 main.post {
                     player = runCatching {
                         MediaPlayer().apply {
-                            setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build())
+                            setAudioAttributes(AudioAttributes.Builder().setUsage(usage).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build())
                             setDataSource(f.absolutePath)
                             setOnCompletionListener { finish(h.id, h.name) }
                             prepare(); start()
