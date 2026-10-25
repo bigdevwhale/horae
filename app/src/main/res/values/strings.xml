@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Horae</string>
+    <string name="tab_today">Hours</string>
+    <string name="tab_book">Book</string>
+    <string name="tab_rule">Rule</string>
+</resources>

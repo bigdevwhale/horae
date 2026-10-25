@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A sun rising over an open book, with a red ribbon. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+    <path android:strokeColor="#FFE0B44A" android:strokeWidth="2.2" android:strokeLineCap="round"
+        android:pathData="M54,27v-5 M44,31l-3,-3 M64,31l3,-3 M38,40h-4 M70,40h4" />
+    <path android:fillColor="#FFE0B44A" android:pathData="M42,44a12,12 0 0,1 24,0z" />
+    <path android:fillColor="#FFF3DE96" android:pathData="M47,44a7,7 0 0,1 14,0z" />
+    <path android:fillColor="#FFF2E8D2" android:pathData="M54,50C46,45 36,45 28,48L28,74C36,71 46,71 54,76Z" />
+    <path android:fillColor="#FFE8DABB" android:pathData="M54,50C62,45 72,45 80,48L80,74C72,71 62,71 54,76Z" />
+    <path android:strokeColor="#FFB4351F" android:strokeWidth="1.6" android:strokeLineCap="round"
+        android:pathData="M33,54C39,52.5 44,52.5 49,54 M33,59C39,57.5 44,57.5 49,59 M59,54C64,52.5 69,52.5 75,54" />
+    <path android:strokeColor="#FF5C4A3B" android:strokeWidth="1.1" android:strokeLineCap="round"
+        android:pathData="M33,64C39,62.5 44,62.5 49,64 M33,68C39,66.5 44,66.5 49,68 M59,59C64,57.5 69,57.5 75,59 M59,64C64,62.5 69,62.5 75,64 M59,68C64,66.5 69,66.5 75,68" />
+    <path android:fillColor="#FFB4351F" android:pathData="M56,72L60,72L60,88L58,85.5L56,88Z" />
+</vector>
