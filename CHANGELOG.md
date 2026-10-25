@@ -6,7 +6,7 @@ line "<!-- tg", then 2-4 short lines in Russian for users (what is new, what is 
 then close it like any HTML comment. The release notes carry it, and the chat bot posts those lines.
 -->
 
-## [Unreleased]
+## [1.0.0] - 2026-10-25
 
 ### Added
 - Unequal hours reckoned from the local sunrise and sunset, offline, with a dial of the day's and the night's twelve hours.
