@@ -67,8 +67,21 @@ object Cities {
 
     val default = all.first().place
 
+    /** The listed city within about 80 km of [p], if any. */
+    fun nearest(p: Place): City? = all.minByOrNull { km(p, it) }?.takeIf { km(p, it) < 80 }
+
+    private fun km(p: Place, c: City): Double {
+        val dLat = Math.toRadians(c.lat - p.lat)
+        val dLon = Math.toRadians(c.lon - p.lon)
+        val a = Math.sin(dLat / 2).let { it * it } + Math.cos(Math.toRadians(p.lat)) * Math.cos(Math.toRadians(c.lat)) * Math.sin(dLon / 2).let { it * it }
+        return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    }
+
     fun name(p: Place, ru: Boolean): String {
-        if (p.name.isEmpty()) return "%.2f°, %.2f°".format(p.lat, p.lon)
+        if (p.name.isEmpty()) {
+            val near = nearest(p)
+            return if (near != null) (if (ru) "рядом: ${near.ru}" else "near ${near.en}") else "%.2f°, %.2f°".format(p.lat, p.lon)
+        }
         val parts = p.name.split('|')
         return if (ru) parts.getOrElse(1) { parts[0] } else parts[0]
     }

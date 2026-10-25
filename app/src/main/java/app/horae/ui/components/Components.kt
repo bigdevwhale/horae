@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -157,7 +158,7 @@ fun Stepper(label: String, value: Int, range: IntRange, step: Int = 1, suffix: S
     Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
         Text(label, style = T.Body, modifier = Modifier.weight(1f))
         RoundKey("−", value - step >= range.first) { onChange((value - step).coerceIn(range)) }
-        Text(show(value), style = T.BodyM, textAlign = TextAlign.Center, modifier = Modifier.width(74.dp))
+        Text(show(value), style = T.BodyM, textAlign = TextAlign.Center, maxLines = 1, modifier = Modifier.widthIn(min = 74.dp).padding(horizontal = 6.dp))
         RoundKey("+", value + step <= range.last) { onChange((value + step).coerceIn(range)) }
     }
 }

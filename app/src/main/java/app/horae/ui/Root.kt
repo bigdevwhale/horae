@@ -64,7 +64,11 @@ class Home(val s: State, val settings: Settings, val w: Words, val lib: Library,
     val place get() = settings.place
 
     fun slots(date: LocalDate) = Clock.day(s.hours, date, zone, place)
-    fun kept(day: Long, hourId: Long) = s.on(day).any { it.hourId == hourId }
+    /** Kept on that page: by the hour itself, or by its name when a new rule replaced the hour the same day. */
+    fun kept(day: Long, hourId: Long): Boolean {
+        val name = s.hours.firstOrNull { it.id == hourId }?.name
+        return s.on(day).any { it.hourId == hourId || it.hourName == name }
+    }
 
     /** The page an open hour writes to: late night hours belong to yesterday's page. */
     fun open(): Clock.Slot? = Clock.open(s.hours, now, zone, place)
@@ -79,10 +83,11 @@ class Home(val s: State, val settings: Settings, val w: Words, val lib: Library,
             val date = LocalDate.ofEpochDay(d)
             val slots = slots(date).filter { it.at != null }
             val last = slots.lastOrNull() ?: continue
-            val entry = s.on(d).firstOrNull { it.hourId == last.hour.id } ?: continue
+            val entry = s.on(d).firstOrNull { it.hourId == last.hour.id || it.hourName == last.hour.name } ?: continue
             if (s.silenceBroken(d)) continue
             val next = slots(date.plusDays(1)).firstOrNull { it.at != null }?.at ?: Clock.sun(date.plusDays(1), zone, place).rise
-            if (now >= entry.at && now < next) return d to next
+            // Kept early, the last hour still closes the book only once its own time has come.
+            if (now >= maxOf(entry.at, last.at!!) && now < next) return d to next
         }
         return null
     }

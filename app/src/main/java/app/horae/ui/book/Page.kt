@@ -93,7 +93,8 @@ fun Page(home: Home, day: Long, modifier: Modifier = Modifier, glossEditor: @Com
     val season = s.season(day)
     val feast = s.feast(date)
     val keptIds = entries.map { it.hourId }.toSet()
-    val missed = if (day < home.today || day == home.today) home.slots(date).filter { it.at != null && it.at < home.now && it.hour.id !in keptIds } else emptyList()
+    val keptNames = entries.map { it.hourName }.toSet()
+    val missed = if (day < home.today || day == home.today) home.slots(date).filter { it.at != null && it.at < home.now && it.hour.id !in keptIds && it.hour.name !in keptNames } else emptyList()
     val drolls = home.drolleries(day)
 
     Box(
@@ -107,7 +108,7 @@ fun Page(home: Home, day: Long, modifier: Modifier = Modifier, glossEditor: @Com
             if (level >= 0) Illum.vine(this, size.width - 24.dp.toPx(), 60.dp.toPx(), size.height - 90.dp.toPx(), 22.dp.toPx(), (level + 1) / 3f, day.toInt())
         },
     ) {
-        Column(Modifier.fillMaxWidth().padding(start = 18.dp, end = 44.dp, top = 22.dp, bottom = 18.dp)) {
+        Column(Modifier.fillMaxWidth().padding(start = 18.dp, end = 54.dp, top = 22.dp, bottom = 18.dp)) {
             Row(verticalAlignment = Alignment.Bottom) {
                 Text(Words.roman(date.dayOfMonth), style = T.Title.copy(color = C.vermilion, fontSize = 30.sp))
                 Text("  " + w.date(date).replaceFirstChar { it.uppercase() }, style = T.Rubric.copy(color = C.inkSoft, fontSize = 14.sp), modifier = Modifier.padding(bottom = 5.dp))

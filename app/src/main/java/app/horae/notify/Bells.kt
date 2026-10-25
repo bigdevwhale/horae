@@ -117,7 +117,7 @@ class BellReceiver : BroadcastReceiver() {
                 val h = s.hours.firstOrNull { it.id == hour }
                 // An hour already kept early on its page doesn't need calling.
                 val day = at.day(ZoneId.systemDefault())
-                val kept = h != null && (s.on(day) + s.on(day - 1)).any { it.hourId == h.id && it.at > at - 6 * 3_600_000L }
+                val kept = h != null && (s.on(day) + s.on(day - 1)).any { (it.hourId == h.id || it.hourName == h.name) && it.at > at - 6 * 3_600_000L }
                 if (h != null && h.on && !kept && h.bell != Bell.NONE && System.currentTimeMillis() - at < 15 * 60_000L) {
                     val svc = Intent(app, BellService::class.java).putExtra(Bells.EXTRA_HOUR, h.id)
                     // Starting a foreground service from an exact alarm is allowed; if the phone says no, the note still comes.
